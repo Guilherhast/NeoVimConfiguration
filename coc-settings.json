@@ -1,0 +1,13 @@
+{
+	"Lua.diagnostics.globals": ["vim"],
+	"Lua.runtime.pathStrict": false,
+	"Lua.runtime.version": "LuaJIT",
+	"Lua.workspace.ignoreSubmodules": false,
+	"inlayHint.enable": false,
+	"pyright.inlayHints.functionReturnTypes": false,
+	"pyright.inlayHints.variableTypes": false,
+	"snippets.ultisnips.pythonPrompt": false,
+	"suggest.enablePreselect": false,
+	"suggest.noselect": true,
+	"sumneko-lua.enableNvimLuaDev": true
+}
