@@ -1,5 +1,6 @@
 --# Globals
 --## Files and folders
+--TODO: Uset %LOCALAPPDATA% for windows
 --local rootDir = os.getenv('MYVIMRC'):match('^.+/')
 local dotlocal = os.getenv('HOME') .. '/.local/state/nvim'
 

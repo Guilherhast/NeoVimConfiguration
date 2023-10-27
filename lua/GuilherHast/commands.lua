@@ -79,14 +79,15 @@ vim.api.nvim_create_autocmd(
 --### Remappings
 
 vim.api.nvim_create_autocmd(
-	{ 'FileType c, cpp, php' },
-	{ command = 'imap<leader>. ->' }
+	{ 'FileType' },
+	{ pattern='c, cpp, php', command = 'imap<leader>. ->' }
 )
 
 vim.api.nvim_create_autocmd(
-	{ 'FileType gdscript' },
-	{ command = 'noremap <buffer> <F4> :GodotRunLast<CR>' }
+	{ 'FileType' },
+	{ pattern='gdscript', command = 'noremap <buffer> <F4> :GodotRunLast<CR>' }
 )
+
 
 --### Chars
 

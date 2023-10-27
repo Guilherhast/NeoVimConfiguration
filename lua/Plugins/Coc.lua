@@ -138,7 +138,10 @@ vim.g.coc_global_extensions = {
 	'coc-omnisharp',
 	'coc-godot',
 	--Compiled
-	'coc-clangd'
+	'coc-clangd',
+	--Prettier
+	'coc-eslint',
+	'coc-prettier'
 }
 
 --### Keys
@@ -183,6 +186,7 @@ utils.remap("xo", "ac", "<Plug>(coc-classobj-a)", opts)
 
 
 --#### Jumps
+-- What each one mean?
 utils.remap("n", 'gd', '<CMD>lua _G.coc_GotoDefinition()<CR>', { noremap = false })
 --utils.remap("n", 'gd', '<Plug>(coc-definition)', { noremap = false })
 utils.remap("n", 'gy', '<Plug>(coc-type-definition)', { noremap = false })
@@ -267,3 +271,5 @@ utils.remap("x", '<leader>dd', '<Plug>(coc-cursors-range)', { noremap = false })
 
 --### Coc-explorer
 utils.remap('n', 'Qe', '<Cmd>CocCommand explorer<CR>')
+utils.remap('n', '<space>e', '<Cmd>CocCommand explorer<CR>')
+utils.remap('n', '<space>E', '<Cmd>CocCommand explorer<CR>')

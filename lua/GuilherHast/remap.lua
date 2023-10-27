@@ -229,3 +229,5 @@ utils.remap('i', '<F1>', '<C-o>:echo "Asign it!"')
 
 utils.remap('i', '<c-s>', '<esc>:<CR>a')
 
+utils.remap('c', '<c-a>', '<c-b>')
+

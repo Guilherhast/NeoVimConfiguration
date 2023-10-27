@@ -23,6 +23,16 @@ inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
 
 require("toggleterm").setup {
 	-- size can be a number or function which is passed the current terminal
+	--[[
+	--]]
+	size = function (term)
+		if term.direction == "horizontal" then
+			return vim.fn.winheight(0)/2
+		end
+		if term.direction == "vertical" then
+			return vim.fn.winwidth(0)/2
+		end
+	end,
 	open_mapping = [[<space>tt]],
 	hide_numbers = true, -- hide the number column in toggleterm buffers
 	shade_filetypes = {},
@@ -31,7 +41,7 @@ require("toggleterm").setup {
 	-- Take a look on this after
 	insert_mappings = false, -- whether or not the open mapping applies in insert mode
 	terminal_mappings = false, -- whether or not the open mapping applies in the opened terminals
-	persist_size = true,
+	persist_size = false,
 	persist_mode = true,   -- if set to true (default) the previous terminal mode will be remembered
 	close_on_exit = true,  -- close the terminal window when the process exits
 	-- Change the default shell. Can be a string or a function returning a string
@@ -55,5 +65,35 @@ require("toggleterm").setup {
 	},
 }
 
---## Keymaps
+--## Terms
+local Terminal = require('toggleterm.terminal').Terminal
 
+function termVrt()
+	Terminal:new({direction="vertical", count=9}):toggle()
+end
+
+function termHrt()
+	Terminal:new({direction="horizontal", count=4}):toggle()
+end
+
+function termTab()
+	Terminal:new({direction="tab", count=7}):toggle()
+end
+
+function termFlo()
+	Terminal:new({direction="float"}):toggle()
+end
+
+--## Keymaps
+--## TODO: use cmdSplit
+
+utils.remap('n', '<space>Tl', '<CMD>lua termVrt()<CR>', {noremap = false})
+utils.remap('n', '<space>Th', '<CMD>lua termVrt()<CR>', {noremap = false})
+utils.remap('n', '<space>Tj', '<CMD>lua termHrt()<CR>', {noremap = false})
+utils.remap('n', '<space>Tk', '<CMD>lua termHrt()<CR>', {noremap = false})
+utils.remap('n', '<space>Tn', '<CMD>lua termTab()<CR>', {noremap = false})
+utils.remap('n', '<space>TT', '<CMD>lua termTab()<CR>', {noremap = false})
+utils.remap('n', '<space>Tf', '<CMD>lua termFlo()<CR>', {noremap = false})
+utils.remap('n', '<space>Tt', '<CMD>lua termFlo()<CR>', {noremap = false})
+utils.remap('n', '<space>TM', '<CMD>lua require("toggleterm.terminal").Terminal:new({cmd="cmatrix -a"}):toggle()<CR>', {noremap = false})
+--utils.remap('n', '<space>Tj', '<CMD>lua _G.utils.cmdSplit("horizontal","j","terminal")<CR>', {noremap = false})

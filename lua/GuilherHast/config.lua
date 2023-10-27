@@ -16,5 +16,5 @@ function _G.set_terminal_keymaps()
   --vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
   --vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
 end
-vim.api.nvim_create_autocmd({'TermOpen term://*'}, { callback=_G.set_terminal_keymaps})
-vim.api.nvim_create_autocmd({'TermOpen term://*'}, { command="startinsert"})
+vim.api.nvim_create_autocmd({'TermOpen'}, { pattern='term://*', callback=_G.set_terminal_keymaps})
+vim.api.nvim_create_autocmd({'TermOpen'}, { pattern='term://*', command="startinsert"})

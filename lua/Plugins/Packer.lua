@@ -40,7 +40,7 @@ return require('packer').startup(function(use)
 	--### Other interface tools
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 	use {
-		'nvim-telescope/telescope.nvim', tag = '0.1.1',
+		'nvim-telescope/telescope.nvim', tag = '0.1.4',
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
 	use {"akinsho/toggleterm.nvim", tag = '*', config = function()
@@ -55,11 +55,25 @@ return require('packer').startup(function(use)
 	use 'habamax/vim-godot' --Need to run CocConfig See on github
 	use 'jremmen/vim-ripgrep'
 	use({
-	"iamcco/markdown-preview.nvim",
-	run = "cd app && npm install",
-	setup = function() vim.g.mkdp_filetypes = { "markdown", "md" } end,
-	ft = { "markdown", "md" },
+		"barrett-ruth/live-server.nvim",
+		run = "yarn global add live-server",
 	})
+	use({
+		"iamcco/markdown-preview.nvim",
+		run = "cd app && npm install",
+		setup = function() vim.g.mkdp_filetypes = { "markdown", "md" } end,
+		ft = { "markdown", "md" },
+	})
+
+	use {
+		'Equilibris/nx.nvim',
+		requires = {
+			'nvim-telescope/telescope.nvim',
+		},
+		config = function()
+			require("nx").setup {}
+		end
+	}
 	--[[
 	--]]
 	--use {'instant-markdown/vim-instant-markdown', 'for': 'markdown', 'do': 'yarn install'}
