@@ -4,6 +4,14 @@ local utils = require("GuilherHast.utils")
 utils.remap('nxv', 'Q', '<Nop>')
 
 --[[
+TODO:
+Add php command to:
+mkdir ~/.config/nvim/libs/php
+cd ~/.config/nvim/libs/php
+composer require --dev php-stubs/wordpress-stubs
+--]]
+
+--[[
 Helfull links:
 https://github.com/samhvw8/mvim/blob/master/lua/core/coc.lua
 --]]
@@ -31,6 +39,8 @@ function _G.MyTrim()
 	end
 	vim.cmd(':silent! nohlsearch')
 	vim.cmd(":silent! call CocAction('format')")
+	vim.cmd([[:silent! %s/ \*/*/]])
+	vim.cmd([[:silent! %s/){/){/]]) -- Make sure uglyness wont show up
 	vim.fn.setpos('.', saved_pos)
 end
 
@@ -129,11 +139,16 @@ vim.g.coc_global_extensions = {
 	'coc-tsserver',
 	'coc-jest',
 	'coc-inline-jest',
-	'coc-psalm',
+	'coc-psalm', -- Put back
+	'coc-phpls',
+	--'@yaegassy/coc-intelephense',
 	--Scripting
 	'coc-pyright',
+	--'coc-python',
 	'coc-lua',
 	'coc-sumneko-lua',
+	--DevOps
+	'coc-docker',
 	--Games
 	'coc-omnisharp',
 	'coc-godot',
@@ -148,16 +163,20 @@ vim.g.coc_global_extensions = {
 vim.g.coc_snippet_next = '<leader>l'
 vim.g.coc_snippet_previous = '<leader>h'
 
+vim.g.user_emmet_mode = 'inv'
+
 --## Remaps
 --### Normal
 local opts = { silent = true, nowait = true }
+
+--Define functions
 
 --#### Call functions
 utils.remap("n", "K", '<CMD>lua _G.show_docs()<CR>', opts)
 
 utils.remap("n", 'Qf', '<Plug>(coc-fix-current)', opts)
 
-utils.remap("n", '<leader>=', '<CMD>lua MyTrim()<CR>', opts)
+utils.remap("n", '<leader>=', '<CMD>silent lua MyTrim()<CR>', opts)
 
 --##### Code actions
 
@@ -188,6 +207,7 @@ utils.remap("xo", "ac", "<Plug>(coc-classobj-a)", opts)
 --#### Jumps
 -- What each one mean?
 utils.remap("n", 'gd', '<CMD>lua _G.coc_GotoDefinition()<CR>', { noremap = false })
+utils.remap("n", '<space>gt', '<CMD>call CocAction("jumpDefinition", "tabe")', { noremap = false })
 --utils.remap("n", 'gd', '<Plug>(coc-definition)', { noremap = false })
 utils.remap("n", 'gy', '<Plug>(coc-type-definition)', { noremap = false })
 utils.remap("n", 'gi', '<Plug>(coc-implementation)', { noremap = false })
@@ -196,9 +216,8 @@ utils.remap("n", 'gr', '<Plug>(coc-references)', { noremap = false })
 --#### Diagnostics
 utils.remap("n", '[g', '<Plug>(coc-diagnostic-prev)', { noremap = false })
 utils.remap("n", ']g', '<Plug>(coc-diagnostic-next)', { noremap = false })
-utils.remap("n", 'Qj', '<Plug>(coc-diagnostic-prev)', { noremap = false })
-utils.remap("n", 'Qk', '<Plug>(coc-diagnostic-next)', { noremap = false })
-
+utils.remap("n", 'Qj', '<Plug>(coc-diagnostic-next)', { noremap = false })
+utils.remap("n", 'Qk', '<Plug>(coc-diagnostic-prev)', { noremap = false })
 
 
 --[[
@@ -235,8 +254,11 @@ utils.remap("v", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>
 --###
 opts = { silent = true, nowait = true }
 
--- Show last
-utils.remap("n", "Qll", ":<C-u>CocListResume<cr>", opts)
+-- Show list
+utils.remap("n", "Qll", ":<C-u>CocList<cr>", opts)
+-- Show last ( resume )
+utils.remap("n", "<space>p", ":<C-u>CocListResume<cr>", opts)
+utils.remap("n", "Qlr", ":<C-u>CocListResume<cr>", opts)
 -- Show all diagnostics
 utils.remap("n", "Qla", ":<C-u>CocList diagnostics<cr>", opts)
 -- Manage extensions
@@ -254,8 +276,6 @@ utils.remap("n", "Qly", ":<C-u>CocList -I symbols<cr>", opts)
 utils.remap("n", "<space>j", ":<C-u>CocNext<cr>", opts)
 -- Do default action for previous item
 utils.remap("n", "<space>k", ":<C-u>CocPrev<cr>", opts)
--- Resume latest coc list
-utils.remap("n", "<space>p", ":<C-u>CocListResume<cr>", opts)
 
 
 --## Feature remaps
@@ -271,5 +291,18 @@ utils.remap("x", '<leader>dd', '<Plug>(coc-cursors-range)', { noremap = false })
 
 --### Coc-explorer
 utils.remap('n', 'Qe', '<Cmd>CocCommand explorer<CR>')
+utils.remap('n', 'QE', '<Cmd>CocCommand explorer<CR>')
 utils.remap('n', '<space>e', '<Cmd>CocCommand explorer<CR>')
 utils.remap('n', '<space>E', '<Cmd>CocCommand explorer<CR>')
+
+--## Filetypes
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "html",
+	callback = function()
+		-- Remove "}" from the indentkeys list.
+		local excludedKeys = "{}"
+		for i = 0, #excludedKeys do
+			vim.opt_local.indentkeys:remove(string.sub(excludedKeys, i, i))
+		end
+	end,
+})

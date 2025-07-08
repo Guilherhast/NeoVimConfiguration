@@ -24,6 +24,14 @@ function utils.remap(modes, key, command, options)
 	end)
 end
 
+function getCols()
+	--[[
+	redir =>a |exe "sil sign place buffer=".bufnr('')|redir end
+	let signlist=split(a, '\n')
+	let width=winwidth(0) - ((&number||&relativenumber) ? &numberwidth : 0) - &foldcolumn - (len(signlist) > 1 ? 2 : 0)
+	--]]
+end
+
 function utils.cmdSplit(dir, key, cmd)
 	local cdirx=vim.o.splitright
 	local cdiry=vim.o.splitbelow

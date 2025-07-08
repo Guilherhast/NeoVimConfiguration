@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'name' => '__root__',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'c89f3dc5827ac2821412ec3e30de3a9046fd4d69',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
+    ),
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'c89f3dc5827ac2821412ec3e30de3a9046fd4d69',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-stubs/wordpress-stubs' => array(
+            'pretty_version' => 'v6.8.1',
+            'version' => '6.8.1.0',
+            'reference' => '92e444847d94f7c30f88c60004648f507688acd5',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-stubs/wordpress-stubs',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
+        'php-stubs/wp-cli-stubs' => array(
+            'pretty_version' => 'v2.11.0',
+            'version' => '2.11.0.0',
+            'reference' => 'f27ff9e8e29d7962cb070e58de70dfaf63183007',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-stubs/wp-cli-stubs',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
+    ),
+);

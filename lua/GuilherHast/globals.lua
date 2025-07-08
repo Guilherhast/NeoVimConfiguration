@@ -28,7 +28,7 @@ vim.o.wildmenu=true
 
 vim.o.wrap=false
 
-vim.o.t_Co=256
+--vim.o.t_Co=256
 vim.o.background='dark'
 
 vim.o.shiftwidth=4
@@ -36,10 +36,14 @@ vim.o.tabstop=4
 
 --## Avoid anoying me
 
-vim.o.nowrap=true
+vim.o.wrap=false
+
+--vim.o.formatoptions='jqlr'
+vim.o.formatoptions='jql'
+vim.opt.formatoptions:remove('cro')
 
 vim.o.expandtab=false
-vim.o.noexpandtab=true
+--vim.o.noexpandtab=true
 vim.g.python_recommended_style=0 --Annoy me not with spaces
 
 vim.o.guicursor= vim.o.guicursor .. ',a:blinkon0'
@@ -48,7 +52,7 @@ vim.o.belloff='all'
 
 vim.o.hidden = true
 
-vim.o.mouse = 'r'
+vim.o.mouse = ''
 
 vim.o.langmenu='en_US'
 --set langmenu=en_US

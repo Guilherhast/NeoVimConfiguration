@@ -1,20 +1,41 @@
 {
 	"prettier.useTabs": true,
-	"snippets.priority": 1,
-	"Lua.diagnostics.globals": ["vim"],
+	"prettier.enable": false,
+	"prettier.bracketSpacing": false,
+	"diagnostic.errorSign": "x",
+	"diagnostic.warningSign": "!",
+	"diagnostic.hintSign": "#",
+	"diagnostic.infoSign": "@",
+	"css.lint.unknownAtRules": "ignore",
+	"snippets.priority": 0,
+	"Lua.diagnostics.globals": [
+		"vim"
+	],
 	"Lua.runtime.pathStrict": false,
 	"Lua.runtime.version": "LuaJIT",
 	"Lua.workspace.ignoreSubmodules": false,
 	"Lua.workspace.checkThirdParty": false,
 	"inlayHint.enable": false,
+	"python.analysis.extraPaths":[
+		"~/.config/nvim/libs/python/",
+	],
+	"python.analysis.stubPath": "~/.config/nvim/libs/python",
 	"pyright.inlayHints.functionReturnTypes": false,
 	"pyright.inlayHints.variableTypes": false,
 	"snippets.ultisnips.pythonPrompt": false,
 	"suggest.enablePreselect": false,
 	"suggest.noselect": true,
 	"sumneko-lua.enableNvimLuaDev": true,
-	"diagnostic.errorSign": "x",
-	"diagnostic.warningSign": "!",
-	"diagnostic.hintSign": "@",
-	"diagnostic.infoSign": "#"
+	"emmet.includeLanguages": {
+		"javascript": "javascriptreact"
+	},
+	"intelephense.format.braces": "k&r",
+	"intelephense.diagnostics.undefinedFunctions": false,
+	"intelephense.diagnostics.undefinedConstants": false,
+	"intelephense.diagnostics.undefinedTypes": false,
+	"intelephense.environment.includePaths": [
+		"~/.config/nvim/libs/php/vendor/php-stubs/wordpress-stubs",
+		"~/.config/nvim/libs/php/vendor/php-stubs/wp-cli-stubs"
+	],
+	"tailwindCSS.headwind.runOnSave": false,
 }

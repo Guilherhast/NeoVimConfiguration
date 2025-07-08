@@ -12,6 +12,8 @@ local utils = require("GuilherHast.utils")
 utils.remap('n','<leader>n', '<CMD>n<CR>', {noremap=true})
 utils.remap('n','<leader>N', '<CMD>N<CR>', {noremap=true})
 
+utils.remap('n','<C-space>', '<C-6>', {noremap=true})
+
 --#### CammelCaseSearch
 
 local opts={silent=true}
@@ -20,8 +22,8 @@ local searchtext=[['\u\|[./\[ ()_\t]\a\|^\a']]
 utils.remap('n','<c-l>', string.format(":<c-u>call search( %s , %s )<cr>", searchtext, [['e']]),opts)
 utils.remap('n','<c-h>', string.format(":<c-u>call search( %s , %s )<cr>", searchtext, [['be']]), opts)
 
-utils.remap('iv', '<C-l>', '<C-o><C-l>', {noremap=false}) --TODO: Add shift
-utils.remap('iv', '<C-h>', '<C-o><C-h>', {noremap=false})
+--utils.remap('iv', '<C-l>', '<C-o><C-l>', {noremap=false}) --TODO: Add shift
+--utils.remap('iv', '<C-h>', '<C-o><C-h>', {noremap=false})
 
 --### Cutting/deleting
 utils.remap('i', '<C-D>', '<C-o>ce') --TODO: Not working
@@ -111,7 +113,7 @@ utils.remap('v', [[<Leader>q6]], [["5xi[()]<Esc>hP]], opts)
 
 --#### Edit blocks
 
-local tKeys = { '\'', '"', '`', '(', 'b', '{', 'B', '['}
+local tKeys = { '\'', '"', '`', '(', 'b', '{', 'B', '[', 't'}
 for _,key in ipairs(tKeys) do
 	utils.remap('n','<leader>i' .. key, '"_yi' .. key, {noremap=true})
 	utils.remap('n','<leader>a' .. key, '"_ya' .. key, {noremap=true})
@@ -178,8 +180,8 @@ utils.remap('n','<leader>m,', ':tabm -1<CR>', {noremap=true})
 utils.remap('n','<leader>m.', ':tabm +1<CR>', {noremap=true})
 
 for i=0, 9 do
-	utils.remap('n','<leader>' .. i, i .. 'gt', {noremap=true})
-	utils.remap('n','<leader>m' .. i, ':tabm' .. i, {noremap=true})
+	utils.remap('n','<leader>' .. i, i .. 'gt<CR>', {noremap=true})
+	utils.remap('n','<leader>m' .. i, ':tabm' .. i .. '<CR>', {noremap=true})
 end
 
 --local lt_cmd=[[<CMD>lua vim.cmd(string.format('tabn %s <CR>', _G.lastTab ))<CR>]]
@@ -195,6 +197,8 @@ utils.remap('n','zl','z4l')
 utils.remap('n','zh','z4h')
 
 utils.remap('n','<leader>z','zt')
+utils.remap('n','z\\','zt')
+utils.remap('n','zx','zb')
 
 --### Fast actions
 --utils.remap('ivc', 'çç', '<ESC>')
@@ -203,31 +207,43 @@ utils.remap('n', '<leader>\\', '<CMD>nohlsearch | echo<CR>')
 utils.remap('n', '<leader><CR>', '<CMD>:pwd<CR>')
 
 
+--### Fast editing
+utils.remap('i', '<C-S-CR>', '<C-o>O')
+utils.remap('i', '<C-CR>', '<C-o>o')
+utils.remap('n', '<C-S-CR>', 'O')
+utils.remap('n', '<C-CR>', 'o')
+
+
 --### Arrows
 
 utils.remap('i', '<c-e>', '<C-o>$')
 utils.remap('i', '<c-a>', '<C-o>^')
 
-utils.remap('i','<C-h>', '<Left>')
-utils.remap('i','<C-j>', '<Down>')
+utils.remap('i','<C-S-h>', '<Left>')
+utils.remap('i','<C-S-j>', '<Down>')
 --utils.remap('i','<C-k>', '<Up>') --TODO: Change after add l
 --utils.remap('i','<C-l>', '<Right>')
 
 
 --### Test functions
 
-utils.remap('n', '<CS-K>', ':lua print("CSK")')
-utils.remap('n', '<CS-J>', ':lua print("CSJ")')
+utils.remap('n', '<C-S-K>', ':lua print("CSK")')
+utils.remap('n', '<C-S-J>', ':lua print("CSJ")')
 
 --## Avoid unwanted hits
 
-utils.remap('n', '<F1>', ':echo "Asign it!"')
-utils.remap('n', '<F2>', ':echo "Asign it!"')
-utils.remap('i', '<F1>', '<C-o>:echo "Asign it!"')
+utils.remap('n', '<F1>', ':echo "Asign it!"<CR>')
+utils.remap('n', '<F2>', ':echo "Asign it!"<CR>')
+--utils.remap('i', '<F1>', '<C-o>:echo "Asign it!"<CR>')
 
 --## Compatibility
 
 utils.remap('i', '<c-s>', '<esc>:<CR>a')
 
 utils.remap('c', '<c-a>', '<c-b>')
+
+
+--## Languages
+--utils.remap('i', '<leader>.', '->')
+
 

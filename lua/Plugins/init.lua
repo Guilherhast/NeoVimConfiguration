@@ -9,6 +9,7 @@ require('Plugins.BetterScape')
 
 --## Interface
 require('Plugins.Airline')
+require('Plugins.TailwindFold')
 
 --## Features
 require('Plugins.GitGutter')
@@ -17,7 +18,9 @@ require('Plugins.Telescope')
 
 --## External tools
 require('Plugins.MarkdownPreview')
+require('Plugins.RenderMarkdown')
 require('Plugins.RipGrep')
 require('Plugins.Fugitive')
 require('Plugins.LiveServer')
 require('Plugins.Nx')
+--require('Plugins.Copilot')
