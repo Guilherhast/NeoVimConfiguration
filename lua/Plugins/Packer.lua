@@ -94,10 +94,10 @@ return require('packer').startup(function(use)
 	--## AI
 
 	use { "zbirenbaum/copilot.lua",
-	event = "InsertEnter",
-	config = function ()
-		require('Plugins.Copilot') -- For lazy loading
-	end
+		event = "InsertEnter",
+		config = function ()
+			require('Plugins.Copilot') -- For lazy loading
+		end
 	} -- Well documentated
 	-- [[ -- Just add an space after --
 	use {

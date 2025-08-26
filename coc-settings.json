@@ -30,6 +30,9 @@
 		"javascript": "javascriptreact"
 	},
 	"intelephense.format.braces": "k&r",
+	"javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
+	"typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+	"javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
 	"intelephense.diagnostics.undefinedFunctions": false,
 	"intelephense.diagnostics.undefinedConstants": false,
 	"intelephense.diagnostics.undefinedTypes": false,

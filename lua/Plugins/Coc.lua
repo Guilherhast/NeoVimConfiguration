@@ -40,7 +40,7 @@ function _G.MyTrim()
 	vim.cmd(':silent! nohlsearch')
 	vim.cmd(":silent! call CocAction('format')")
 	vim.cmd([[:silent! %s/ \*/*/]])
-	vim.cmd([[:silent! %s/){/){/]]) -- Make sure uglyness wont show up
+	vim.cmd([[:silent! %s/) {/){/]]) -- Make sure uglyness wont show up
 	vim.fn.setpos('.', saved_pos)
 end
 

@@ -2,6 +2,40 @@
 
 --## User commands
 
+
+--### Text editing
+
+-- Check if the current buffer has a string
+local function hasString(pattern)
+	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+	-- Check each line for the pattern
+	for _, line in ipairs(lines) do
+		if line:find(pattern) then
+			return true
+		end
+	end
+
+	return false
+end
+
+vim.api.nvim_create_user_command('WhatsappStripText', function()
+	-- Check if has a partial text. If so, notify and do nothing
+	if hasString('…') then
+		vim.notify('Please expand the "Read more" fields ( … ).'); return
+	end
+
+	-- Create string for complex search and replace
+	local dp = "\\d\\{1,2\\}"
+	local search = string.format("%%s/^\\[%s:%s, %s\\/%s\\/%s%s\\] [^:]\\+: /\\r/", dp, dp, dp, dp, dp, dp)
+
+	-- Execute search and replacement
+	vim.api.nvim_command(search)
+	vim.api.nvim_command("%s/\r//")
+	vim.api.nvim_command("%s/^https:...*$/&\\r\\r/")
+end, {})
+
+
+--### Vim internal
 vim.api.nvim_create_user_command('Reload', function()
 	for name, _ in pairs(package.loaded) do
 		if name:match('^user') and not name:match('nvim-tree') then
@@ -15,6 +49,7 @@ vim.api.nvim_create_user_command('Reload', function()
 	vim.cmd('luafile' .. file)
 	vim.notify("Nvim configuration reloaded!", vim.log.levels.INFO)
 end, {})
+
 
 
 vim.api.nvim_create_user_command('TitleToH1', [[<CMD>s/<\(\/\?\)title>/<\1h1>/g<CR>]], {})
@@ -56,6 +91,8 @@ vim.api.nvim_create_user_command('Wa', function(cmd)
 	local c = 'wa ';
 	vim.cmd(c .. cmd.args)
 end, { nargs = '*', bang = true })
+
+
 
 --## Auto commands
 
@@ -118,6 +155,9 @@ vim.api.nvim_create_autocmd(
 	}
 )
 
+--[[
+-- It mess up the syntax and the complete.
+-- Find another way
 vim.api.nvim_create_autocmd(
 	{'FileType'},
 	{
@@ -129,9 +169,10 @@ vim.api.nvim_create_autocmd(
 		end
 	}
 )
+--]]
 
 vim.api.nvim_create_autocmd(
-	{'FileType'},
+	{ 'FileType' },
 	{
 		pattern = 'php',
 		callback = function()
