@@ -1,7 +1,7 @@
 --# Configuration
 --## Appearance
 
-vim.cmd.colorscheme('restNight')
+vim.cmd.colorscheme('dew')
 
 --##  Terminal
 

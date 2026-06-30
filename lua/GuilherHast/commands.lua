@@ -29,9 +29,11 @@ vim.api.nvim_create_user_command('WhatsappStripText', function()
 	local search = string.format("%%s/^\\[%s:%s, %s\\/%s\\/%s%s\\] [^:]\\+: /\\r/", dp, dp, dp, dp, dp, dp)
 
 	-- Execute search and replacement
+	if jit and jit.os ~= "Windows" then vim.api.nvim_command("%s/\r//") end
 	vim.api.nvim_command(search)
-	vim.api.nvim_command("%s/\r//")
 	vim.api.nvim_command("%s/^https:...*$/&\\r\\r/")
+	vim.fn.setreg('+', table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n'))
+	print("File copied to clipboard")
 end, {})
 
 
@@ -196,13 +198,38 @@ vim.api.nvim_create_autocmd(
 
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead", },
 	{
-		pattern = "*.py,*.gd",
+		pattern = "*.py,*.gd,*.html",
 		callback = function()
 			vim.o.list = true
 			vim.o.listchars = 'tab:┊  ,trail:·'
 		end
 	}
 )
+
+--### Buffers
+
+local function close_deleted_buffers()
+	local buffers = vim.api.nvim_list_bufs()
+	local closed_count = 0
+
+	for _, bufnr in ipairs(buffers) do
+		if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].buflisted then
+			local name = vim.api.nvim_buf_get_name(bufnr)
+
+			-- 1. Check if it has a name (skip empty buffers)
+			-- 2. Check if the file is NOT readable on disk
+			if name ~= "" and vim.fn.filereadable(name) == 0 then
+				vim.api.nvim_buf_delete(bufnr, { force = true })
+				closed_count = closed_count + 1
+			end
+		end
+	end
+
+	print(string.format("Closed %d deleted file buffer(s).", closed_count))
+end
+
+-- Create the user command
+vim.api.nvim_create_user_command('CloseDeleted', close_deleted_buffers, {})
 
 --## Abbreviation
 -- TODO

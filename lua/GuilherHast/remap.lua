@@ -5,22 +5,26 @@ local utils = require("GuilherHast.utils")
 
 --## Workflow remaps
 
+-- ### Heping functions
+local function moveTabForward() vim.cmd('tabm +' .. vim.v.count1) end
+local function moveTabBackward() vim.cmd('tabm -' .. vim.v.count1) end
+
 --### Jumping
 
 --#### Files
 
-utils.remap('n','<leader>n', '<CMD>n<CR>', {noremap=true})
-utils.remap('n','<leader>N', '<CMD>N<CR>', {noremap=true})
+utils.remap('n', '<leader>n', '<CMD>n<CR>', { noremap = true })
+utils.remap('n', '<leader>N', '<CMD>N<CR>', { noremap = true })
 
-utils.remap('n','<C-space>', '<C-6>', {noremap=true})
+utils.remap('n', '<C-space>', '<C-6>', { noremap = true })
 
 --#### CammelCaseSearch
 
-local opts={silent=true}
-local searchtext=[['\u\|[./\[ ()_\t]\a\|^\a']]
+local opts = { silent = true }
+local searchtext = [['\u\|[./\[ ()_\t]\a\|^\a']]
 
-utils.remap('n','<c-l>', string.format(":<c-u>call search( %s , %s )<cr>", searchtext, [['e']]),opts)
-utils.remap('n','<c-h>', string.format(":<c-u>call search( %s , %s )<cr>", searchtext, [['be']]), opts)
+utils.remap('n', '<c-l>', string.format(":<c-u>call search( %s , %s )<cr>", searchtext, [['e']]), opts)
+utils.remap('n', '<c-h>', string.format(":<c-u>call search( %s , %s )<cr>", searchtext, [['be']]), opts)
 
 --utils.remap('iv', '<C-l>', '<C-o><C-l>', {noremap=false}) --TODO: Add shift
 --utils.remap('iv', '<C-h>', '<C-o><C-h>', {noremap=false})
@@ -32,28 +36,31 @@ utils.remap('i', '<C-D>', '<C-o>ce') --TODO: Not working
 --### Pasting
 
 -- My ideias
-utils.remap('n','<leader>p', '"*p', {noremap=true})
-utils.remap('n','<leader>P', '"*P', {noremap=true})
+utils.remap('n', '<leader>p', '"*p', { noremap = true })
+utils.remap('n', '<leader>P', '"*P', { noremap = true })
 
-utils.remap('n','<leader>ç', '"+p', {noremap=true})
-utils.remap('n','<leader>Ç', '"+P', {noremap=true})
+utils.remap('n', '<leader>ç', '"+p', { noremap = true })
+utils.remap('n', '<leader>Ç', '"+P', { noremap = true })
 
+utils.remap('nv', '<leader>y', '"+y', { silent = true, noremap = true })
 
-utils.remap('nv', '<leader>y', '"+y', {silent=true, noremap=true})
-utils.remap('n', '<leader>G', 'gg"+yG\'\'', {silent=true, noremap=true})
+utils.remap('n', '<leader>G', function()
+	vim.fn.setreg('+', table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n'))
+end
+, { silent = true, noremap = true })
 
 --#### Visual
 
 -- Primeagen ideias
-utils.remap('v','<leader>p', '"_dp', {noremap=true})
-utils.remap('v','<leader>ç', '"_d"+p', {noremap=true})
+utils.remap('v', '<leader>p', '"_dp', { noremap = true })
+utils.remap('v', '<leader>ç', '"_d"+p', { noremap = true })
 
 --### Move
 utils.remap('n', '<A-k>', '<CMD>m-2<CR>==')
 utils.remap('n', '<A-j>', '<CMD>m+1<CR>==')
 
-utils.remap('i', '<A-k>', '<Esc>:m .-2<CR>==gi', {noremap=false})
-utils.remap('i', '<A-j>', '<Esc>:m .+1<CR>==gi', {noremap=false})
+utils.remap('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { noremap = false })
+utils.remap('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { noremap = false })
 
 utils.remap('v', '<A-k>', ":m '<-2<CR>gv=gv")
 utils.remap('v', '<A-j>', ":m '>+1<CR>gv=gv")
@@ -113,40 +120,44 @@ utils.remap('v', [[<Leader>q6]], [["5xi[()]<Esc>hP]], opts)
 
 --#### Edit blocks
 
-local tKeys = { '\'', '"', '`', '(', 'b', '{', 'B', '[', 't'}
-for _,key in ipairs(tKeys) do
-	utils.remap('n','<leader>i' .. key, '"_yi' .. key, {noremap=true})
-	utils.remap('n','<leader>a' .. key, '"_ya' .. key, {noremap=true})
+local tKeys = { '\'', '"', '`', '(', 'b', '{', 'B', '[', 't' }
+for _, key in ipairs(tKeys) do
+	utils.remap('n', '<leader>i' .. key, '"_yi' .. key, { noremap = true })
+	utils.remap('n', '<leader>a' .. key, '"_ya' .. key, { noremap = true })
 end
 
 --## Opening
 
-utils.remap('n', '<leader>ff', '<CMD>e <cfile><CR>', {silent=true})
-utils.remap('n', '<leader>fs', '<CMD>split <cfile><CR>', {silent=true})
-utils.remap('n', '<leader>ft', '<CMD>tabe <cfile><CR>', {silent=true})
-utils.remap('n', '<leader>fg', '<CMD>vertical split <cfile><CR>', {silent=true})
-utils.remap('n', '<leader>fv', '<CMD>vertical split <cfile><CR>', {silent=true})
+utils.remap('n', '<leader>ff', '<CMD>e <cfile><CR>', { silent = true })
+utils.remap('n', '<leader>fs', '<CMD>split <cfile><CR>', { silent = true })
+utils.remap('n', '<leader>ft', '<CMD>tabe <cfile><CR>', { silent = true })
+utils.remap('n', '<leader>fg', '<CMD>vertical split <cfile><CR>', { silent = true })
+utils.remap('n', '<leader>fv', '<CMD>vertical split <cfile><CR>', { silent = true })
 
 
-utils.remap('n', '<leader>fk', '<CMD>lua _G.utils.cmdSplit("horizontal", "k", "e " .. vim.fn.expand("<cfile>"))<CR>', {silent=true})
-utils.remap('n', '<leader>fj', '<CMD>lua _G.utils.cmdSplit("horizontal", "j", "e " .. vim.fn.expand("<cfile>"))<CR>', {silent=true})
-utils.remap('n', '<leader>fl', '<CMD>lua _G.utils.cmdSplit("vertical", "l", "e " .. vim.fn.expand("<cfile>"))<CR>', {silent=true})
-utils.remap('n', '<leader>fh', '<CMD>lua _G.utils.cmdSplit("vertical", "h", "e " .. vim.fn.expand("<cfile>"))<CR>', {silent=true})
+utils.remap('n', '<leader>fk', '<CMD>lua _G.utils.cmdSplit("horizontal", "k", "e " .. vim.fn.expand("<cfile>"))<CR>',
+	{ silent = true })
+utils.remap('n', '<leader>fj', '<CMD>lua _G.utils.cmdSplit("horizontal", "j", "e " .. vim.fn.expand("<cfile>"))<CR>',
+	{ silent = true })
+utils.remap('n', '<leader>fl', '<CMD>lua _G.utils.cmdSplit("vertical", "l", "e " .. vim.fn.expand("<cfile>"))<CR>',
+	{ silent = true })
+utils.remap('n', '<leader>fh', '<CMD>lua _G.utils.cmdSplit("vertical", "h", "e " .. vim.fn.expand("<cfile>"))<CR>',
+	{ silent = true })
 
 
 --### Buffers
 
-utils.remap('n', '<leader>|', ':vsplit<CR>', {silent=true})
-utils.remap('n', '<leader>sv', ':vsplit<CR>', {silent=true})
-utils.remap('n', '<leader>sh', ':split<CR>', {silent=true})
+utils.remap('n', '<leader>|', ':vsplit<CR>', { silent = true })
+utils.remap('n', '<leader>sv', ':vsplit<CR>', { silent = true })
+utils.remap('n', '<leader>sh', ':split<CR>', { silent = true })
 
 --### Terminal
 
-utils.remap('n', '<space>tl', '<CMD>lua _G.utils.cmdSplit("vertical","l","terminal")<CR>', {noremap = false})
-utils.remap('n', '<space>th', '<CMD>lua _G.utils.cmdSplit("vertical","h","terminal")<CR>', {noremap = false})
-utils.remap('n', '<space>tk', '<CMD>lua _G.utils.cmdSplit("horizontal","k","termina")<CR>', {noremap = false})
-utils.remap('n', '<space>tj', '<CMD>lua _G.utils.cmdSplit("horizontal","j","terminal")<CR>', {noremap = false})
-utils.remap('n', '<space>tn', '<CMD>tabe | terminal<CR>', {noremap = false})
+utils.remap('n', '<space>tl', '<CMD>lua _G.utils.cmdSplit("vertical","l","terminal")<CR>', { noremap = false })
+utils.remap('n', '<space>th', '<CMD>lua _G.utils.cmdSplit("vertical","h","terminal")<CR>', { noremap = false })
+utils.remap('n', '<space>tk', '<CMD>lua _G.utils.cmdSplit("horizontal","k","termina")<CR>', { noremap = false })
+utils.remap('n', '<space>tj', '<CMD>lua _G.utils.cmdSplit("horizontal","j","terminal")<CR>', { noremap = false })
+utils.remap('n', '<space>tn', '<CMD>tabe | terminal<CR>', { noremap = false })
 
 --## Movement -- Put before copy and paste
 
@@ -154,57 +165,79 @@ utils.remap('n', '<space>tn', '<CMD>tabe | terminal<CR>', {noremap = false})
 
 --#### Windows
 
-utils.remap('n', '<leader>h', ':wincmd h<CR>', {noremap = false})
-utils.remap('n', '<leader>j', ':wincmd j<CR>', {noremap = true})
-utils.remap('n', '<leader>k', ':wincmd k<CR>', {noremap = true})
-utils.remap('n', '<leader>l', ':wincmd l<CR>', {noremap = true})
-utils.remap('n', '<leader>r', ':wincmd r<CR>', {noremap = true})
+utils.remap('n', '<leader>h', ':wincmd h<CR>', { noremap = false })
+utils.remap('n', '<leader>j', ':wincmd j<CR>', { noremap = true })
+utils.remap('n', '<leader>k', ':wincmd k<CR>', { noremap = true })
+utils.remap('n', '<leader>l', ':wincmd l<CR>', { noremap = true })
+utils.remap('n', '<leader>r', ':wincmd r<CR>', { noremap = true })
 
-utils.remap('n', '<leader>H', ':wincmd H<CR>', {noremap = true})
-utils.remap('n', '<leader>J', ':wincmd J<CR>', {noremap = true})
-utils.remap('n', '<leader>K', ':wincmd K<CR>', {noremap = true})
-utils.remap('n', '<leader>L', ':wincmd L<CR>', {noremap = true})
+utils.remap('n', '<leader>H', ':wincmd H<CR>', { noremap = true })
+utils.remap('n', '<leader>J', ':wincmd J<CR>', { noremap = true })
+utils.remap('n', '<leader>K', ':wincmd K<CR>', { noremap = true })
+utils.remap('n', '<leader>L', ':wincmd L<CR>', { noremap = true })
 
 --#### Tabs
 
-utils.remap('n', '<leader>td', ':tab split<CR>', {noremap = true, silent=true})
-utils.remap('n', '<leader>tn', ':tabe<CR>', {noremap = true, silent=true})
-utils.remap('n', '<leader>to', ':wincmd T<CR>', {noremap = true, silent=true})
+utils.remap('n', '<leader>td', ':tab split<CR>', { noremap = true, silent = true })
+utils.remap('n', '<leader>tn', ':tabe<CR>', { noremap = true, silent = true })
+utils.remap('n', '<leader>to', ':wincmd T<CR>', { noremap = true, silent = true })
 
-utils.remap('n', '<leader>,', 'gT')
-utils.remap('n', '<leader>.', 'gt')
+-- Focus prev tab backward repeating gT count times
+utils.remap('n', '<leader>,', function()
+	for _ = 1, vim.v.count1 do
+		vim.cmd('normal! gT')
+	end
+end)
 
-utils.remap('n','<leader>mh', ':tabm -1<CR>', {noremap=true})
-utils.remap('n','<leader>ml', ':tabm +1<CR>', {noremap=true})
-utils.remap('n','<leader>m,', ':tabm -1<CR>', {noremap=true})
-utils.remap('n','<leader>m.', ':tabm +1<CR>', {noremap=true})
+-- Focus next tab forward repeating gt count times
+utils.remap('n', '<leader>.', function()
+	for _ = 1, vim.v.count1 do
+		vim.cmd('normal! gt')
+	end
+end)
 
-for i=0, 9 do
-	utils.remap('n','<leader>' .. i, i .. 'gt<CR>', {noremap=true})
-	utils.remap('n','<leader>m' .. i, ':tabm' .. i .. '<CR>', {noremap=true})
+-- ## Move tabs
+utils.remap('n', '<leader>mh', ':tabm -1<CR>', { noremap = true })
+utils.remap('n', '<leader>ml', ':tabm +1<CR>', { noremap = true })
+utils.remap('n', '<leader>m,', ':tabm -1<CR>', { noremap = true })
+utils.remap('n', '<leader>m.', ':tabm +1<CR>', { noremap = true })
+
+for i = 0, 9 do
+	utils.remap('n', '<leader>' .. i, i .. 'gt<CR>', { noremap = true })
+	utils.remap('n', '<leader>m' .. i, ':tabm' .. i .. '<CR>', { noremap = true })
 end
 
---local lt_cmd=[[<CMD>lua vim.cmd(string.format('tabn %s <CR>', _G.lastTab ))<CR>]]
-local lt_cmd=[[<CMD>lua vim.cmd(string.format('tabn %s', _G.lastTab))<CR>]]
+-- Move tab position backward (left)
+utils.remap('n', '<leader>mh', moveTabBackward, { noremap = true })
+utils.remap('n', '<leader>m,', moveTabBackward, { noremap = true })
 
-utils.remap('n',[[<leader>']],  lt_cmd, {noremap=true})
-utils.remap('n',"<leader>-",  lt_cmd, {noremap=true})
-utils.remap('n',"<leader>t'", lt_cmd, {noremap=true})
+-- Move tab position forward (right)
+utils.remap('n', '<leader>ml', moveTabForward, { noremap = true })
+utils.remap('n', '<leader>m.', moveTabForward, { noremap = true })
+
+--local lt_cmd=[[<CMD>lua vim.cmd(string.format('tabn %s <CR>', _G.lastTab ))<CR>]]
+local lt_cmd = [[<CMD>lua vim.cmd(string.format('tabn %s', _G.lastTab))<CR>]]
+
+utils.remap('n', [[<leader>']], lt_cmd, { noremap = true })
+utils.remap('n', "<leader>-", lt_cmd, { noremap = true })
+utils.remap('n', "<leader>t'", lt_cmd, { noremap = true })
 
 --### Scrolling
 
-utils.remap('n','zl','z4l')
-utils.remap('n','zh','z4h')
+utils.remap('n', 'zl', 'z4l')
+utils.remap('n', 'zh', 'z4h')
 
-utils.remap('n','<leader>z','zt')
-utils.remap('n','z\\','zt')
-utils.remap('n','zx','zb')
+utils.remap('n', '<leader>z', 'zt')
+utils.remap('n', 'z\\', 'zt')
+utils.remap('n', 'zx', 'zb')
 
 --### Fast actions
 --utils.remap('ivc', 'çç', '<ESC>')
 
 utils.remap('n', '<leader>\\', '<CMD>nohlsearch | echo<CR>')
 utils.remap('n', '<leader><CR>', '<CMD>:pwd<CR>')
+
+utils.remap('n', '<leader>@', '@:') -- Repeat last command
 
 
 --### Fast editing
@@ -219,8 +252,8 @@ utils.remap('n', '<C-CR>', 'o')
 utils.remap('i', '<c-e>', '<C-o>$')
 utils.remap('i', '<c-a>', '<C-o>^')
 
-utils.remap('i','<C-S-h>', '<Left>')
-utils.remap('i','<C-S-j>', '<Down>')
+utils.remap('i', '<C-S-h>', '<Left>')
+utils.remap('i', '<C-S-j>', '<Down>')
 --utils.remap('i','<C-k>', '<Up>') --TODO: Change after add l
 --utils.remap('i','<C-l>', '<Right>')
 
@@ -234,16 +267,12 @@ utils.remap('n', '<C-S-J>', ':lua print("CSJ")')
 
 utils.remap('n', '<F1>', ':echo "Asign it!"<CR>')
 utils.remap('n', '<F2>', ':echo "Asign it!"<CR>')
---utils.remap('i', '<F1>', '<C-o>:echo "Asign it!"<CR>')
+utils.remap('i', '<F1>', '<C-o>:echo "Asign it!"<CR>')
 
 --## Compatibility
 
 utils.remap('i', '<c-s>', '<esc>:<CR>a')
-
 utils.remap('c', '<c-a>', '<c-b>')
-
 
 --## Languages
 --utils.remap('i', '<leader>.', '->')
-
-

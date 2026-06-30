@@ -1,3 +1,4 @@
+require("GuilherHast.priority")
 require("GuilherHast.globals")
 require("GuilherHast.lineNumbering")
 require("GuilherHast.config")
