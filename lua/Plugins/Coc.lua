@@ -1,4 +1,4 @@
-local utils = require("GuilherHast.utils")
+local utils = require("Personal.utils")
 
 --Unmap the Q key
 utils.remap('nxv', 'Q', '<Nop>')
@@ -34,13 +34,15 @@ function _G.MyTrim()
 	local saved_pos = vim.fn['getpos'](".")
 	local types_to_skip = { 'md', 'python', 'gd' }
 	if not utils.inTable(vim.bo.filetype, types_to_skip) then
-		vim.cmd([[:silent! %s/ *\([\t]\+\) */\1/g"]])
-		vim.cmd([[:silent! %s/^ *// | %s/[ \t]*$//]])
+		vim.cmd([[:silent! %s/ \+\([\t]\+\) +/\1/g"]])
+		vim.cmd([[:silent! %s/^ \+// | %s/[ \t]*$//]])
 	end
 	vim.cmd(':silent! nohlsearch')
 	vim.cmd(":silent! call CocAction('format')")
 	vim.cmd([[:silent! %s/ \*/*/]])
-	vim.cmd([[:silent! %s/) {/){/]]) -- Make sure uglyness wont show up
+	--Add \(\) to avoid matching itself
+	vim.cmd([[:silent! %s/) \({\)/){/]]) -- Make sure uglyness wont show up
+	--){
 	vim.fn.setpos('.', saved_pos)
 end
 
@@ -112,7 +114,7 @@ vim.api.nvim_create_autocmd({ 'ColorScheme' }, {
 
 --TODO:
 --Use a function
-vim.api.nvim_create_autocmd("CursorHold", { command = 'silent call CocActionAsync("highlight")' })
+--vim.api.nvim_create_autocmd("CursorHold", { command = 'silent call CocActionAsync("highlight")' })
 
 --## Variables
 --### Coc Extensions
@@ -146,7 +148,7 @@ vim.g.coc_global_extensions = {
 	'coc-pyright',
 	--'coc-python',
 	'coc-lua',
-	'coc-sumneko-lua',
+	--'coc-sumneko-lua',
 	--DevOps
 	'coc-docker',
 	--Games
@@ -164,6 +166,11 @@ vim.g.coc_snippet_next = '<leader>l'
 vim.g.coc_snippet_previous = '<leader>h'
 
 vim.g.user_emmet_mode = 'inv'
+
+---### Make sugestions show
+vim.g.pyxversion=3
+--vim.g.completeopt= vim.g.completeopt .. 'long,menuone'
+vim.g.splitbelow = true
 
 --## Remaps
 --### Normal
@@ -186,6 +193,10 @@ utils.remap("n", 'Qac', '<Plug>(coc-codeaction)', opts)
 utils.remap("n", 'Qas', '<Plug>(coc-codeaction)', opts)
 
 
+utils.remap("n", 'Qh', 'silent call CocActionAsync("highlight")', opts)
+
+--vim.api.nvim_create_autocmd("CursorHold", { command = 'silent call CocActionAsync("highlight")' })
+
 --utils.remap("n", 'Qr', '<Plug>(coc-rename)', { noremap = false })
 utils.remap("n", 'Qr', '<CMD>CocCommand document.renameCurrentWord<CR>', { noremap = false })
 
@@ -207,18 +218,18 @@ utils.remap("xo", "ac", "<Plug>(coc-classobj-a)", opts)
 --#### Jumps
 -- What each one mean?
 utils.remap("n", 'gd', '<CMD>lua _G.coc_GotoDefinition()<CR>', { noremap = false })
-utils.remap("n", '<space>gt', '<CMD>call CocAction("jumpDefinition", "tabe")', { noremap = false })
+utils.remap("n", '<space>gt', '<CMD>call CocAction("jumpDefinition", "tabe")<CR>', { noremap = false })
 --utils.remap("n", 'gd', '<Plug>(coc-definition)', { noremap = false })
-utils.remap("n", 'gy', '<Plug>(coc-type-definition)', { noremap = false })
-utils.remap("n", 'gi', '<Plug>(coc-implementation)', { noremap = false })
-utils.remap("n", 'gr', '<Plug>(coc-references)', { noremap = false })
+utils.remap("n", 'gy', '<Plug>(coc-type-definition)<CR>', { noremap = false })
+utils.remap("n", 'gi', '<Plug>(coc-implementation)<CR>', { noremap = false })
+--utils.remap("n", 'gr', '<Plug>(coc-references)', { noremap = false })
+utils.remap("n", 'çr', '<Plug>(coc-references)', { noremap = false })
 
 --#### Diagnostics
-utils.remap("n", '[g', '<Plug>(coc-diagnostic-prev)', { noremap = false })
-utils.remap("n", ']g', '<Plug>(coc-diagnostic-next)', { noremap = false })
-utils.remap("n", 'Qj', '<Plug>(coc-diagnostic-next)', { noremap = false })
-utils.remap("n", 'Qk', '<Plug>(coc-diagnostic-prev)', { noremap = false })
-
+utils.remap("n", '[g', '<Plug>(coc-diagnostic-prev)<CR>', { noremap = false })
+utils.remap("n", ']g', '<Plug>(coc-diagnostic-next)<CR>', { noremap = false })
+utils.remap("n", 'Qj', '<Plug>(coc-diagnostic-next)<CR>', { noremap = false })
+utils.remap("n", 'Qk', '<Plug>(coc-diagnostic-prev)<CR>', { noremap = false })
 
 --[[
 utils.remap("n", 'Qgd', '<Plug>(coc-definition)', { noremap = false })
@@ -268,6 +279,7 @@ utils.remap("n", "Qlc", ":<C-u>CocList commands<cr>", opts)
 -- Find symbol of current document
 utils.remap("n", "Qlo", ":<C-u>CocList outline<cr>", opts)
 utils.remap("n", "Qo", ":<C-u>CocList outline<cr>", opts)
+utils.remap("n", "ço", ":<C-u>CocList outline<cr>", opts)
 -- Search workspace snipets
 utils.remap("n", "Qls", ":<C-u>CocList snippets", opts)
 -- Search workspace symbols

@@ -1,6 +1,5 @@
 -- Description: Avante.nvim configuration
 -- https://github.com/yetone/avante.nvim/issues/1852
-
 -- [[
 --## Providers configuration
 local perplexity_provider_pro = {
@@ -74,9 +73,9 @@ local config = {
 		auto_set_keymaps = false,
 	},
 	windows = {
+		wrap = false,
 		position = "bottom",
 		width = 75,
-		wrap = false,
 		ask = {
 			floating = true,
 			start_insert = false

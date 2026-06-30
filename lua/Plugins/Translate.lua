@@ -1,0 +1,3 @@
+--vim.g.translator_target_lang='en'
+--vim.g.translator_source_lang='hb'
+--vim.g.translator_history_enable='true'

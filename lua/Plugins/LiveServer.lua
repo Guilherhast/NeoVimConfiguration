@@ -1,6 +1,7 @@
 --# LiveServer
 --## Config
 
-require('live-server').setup({
-	args={'--port=8080'}
-})
+vim.g.live_server = {
+	port = 8080,
+	browser = false,
+}

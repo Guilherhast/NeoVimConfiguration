@@ -68,6 +68,7 @@ return require('packer').startup(function(use)
 
 	--## External tools
 	use 'tpope/vim-fugitive'
+	use 'voldikss/vim-translator'
 	use 'habamax/vim-godot' --Need to run CocConfig See on github
 	use 'jremmen/vim-ripgrep'
 	use({
@@ -93,13 +94,16 @@ return require('packer').startup(function(use)
 
 	--## AI
 
+	--[[
+
 	use { "zbirenbaum/copilot.lua",
 		event = "InsertEnter",
 		config = function ()
 			require('Plugins.Copilot') -- For lazy loading
 		end
 	} -- Well documentated
-	-- [[ -- Just add an space after --
+	--]]
+	--[[ -- Just add an space after --
 	use {
 		'yetone/avante.nvim',
 		branch = 'main',
@@ -116,16 +120,6 @@ return require('packer').startup(function(use)
 		},
 		config = function()
 			require('Plugins.Avante')
-		end
-	}
-	--]]
-	--[[
-	use {
-		'yetone/avante.nvim',
-		branch = 'main',
-		run = 'make',
-		config = function()
-			require('avante').setup()
 		end
 	}
 	--]]
@@ -153,5 +147,13 @@ return require('packer').startup(function(use)
 	-- use 'svermeulen/vim-easyclip'
 	--use 'junegunn/vim-easy-align'
 	--use 'mhinz/vim-signify'
+
+	--[[
+	use {
+		'~/Programming/Lua/Nvim/Rainbow-antigravity.nvim',
+		requires = { {'nvim-telescope/telescope.nvim'} }
+	}
+	--]]
+
 end
 )

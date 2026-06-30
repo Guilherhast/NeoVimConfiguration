@@ -1,4 +1,4 @@
-local utils = require("GuilherHast.utils")
+local utils = require("Personal.utils")
 local telescope = require('telescope')
 local actions = require('telescope.actions')
 
@@ -9,6 +9,21 @@ local path_actions = require('telescope_insert_path')
 --utils.remap('nxv', 'x', '<Nop>')
 
 --## Global Variables
+--Using <space>ç
+local telescope_legend = {
+	{ key = "çç", desc = "Find Files (All)" },
+	{ key = "çg", desc = "Git Files (Tracked)" },
+	{ key = "çb", desc = "Open Buffers" },
+	{ key = "çh", desc = "Help Tags" },
+	{ key = "çR", desc = "Telescope Reloader" },
+	{ key = "çs", desc = "Search History" },
+	{ key = "çj", desc = "Jumplist" },
+	{ key = "çz", desc = "Fuzzy Find in Current Buffer" },
+	{ key = "çf", desc = "Live Grep (Search Text)" },
+	{ key = "çl", desc = "Grep String (Options)" },
+	{ key = "çc", desc = "Commands" },
+}
+
 
 --## Functions
 function _G.findInParent(prompt_bufnr)
@@ -27,16 +42,53 @@ function _G.findInParent(prompt_bufnr)
 	require('telescope.builtin').find_files(ff_opts)
 end
 
+local function show_telescope_legend()
+	local pickers = require("telescope.pickers")
+	local finders = require("telescope.finders")
+	local conf = require("telescope.config").values
+	local actions = require("telescope.actions")
+	local action_state = require("telescope.actions.state")
+
+	pickers.new({}, {
+		prompt_title = "Telescope Keymaps Legend",
+		finder = finders.new_table({
+			results = telescope_legend,
+			entry_maker = function(entry)
+				-- Formats how it looks in the Telescope window
+				local display_string = string.format("%-5s -> %s", entry.key, entry.desc)
+				return {
+					value = entry,
+					display = display_string,
+					ordinal = entry.key .. " " .. entry.desc,
+				}
+			end,
+		}),
+		sorter = conf.generic_sorter({}),
+		attach_mappings = function(prompt_bufnr, map)
+			-- Optional: Pressing Enter executes the selected command automatically
+			actions.select_default:replace(function()
+				actions.close(prompt_bufnr)
+				local selection = action_state.get_selected_entry()
+				if selection then
+					-- Simulates pressing the actual keys
+					local keys = vim.api.nvim_replace_termcodes(selection.value.key, true, false, true)
+					vim.api.nvim_feedkeys(keys, "m", true)
+				end
+			end)
+			return true
+		end,
+	}):find()
+end
+
 --Remaps
 local opts = { noremap = true }
 
---Using <space>ç
 -- Files:
 utils.remap("n", "çç", '<cmd>lua require("telescope.builtin").find_files()<cr>', opts)
 utils.remap("n", "çg", '<cmd>lua require("telescope.builtin").git_files()<cr>', opts)
 utils.remap("n", "çb", '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)
 utils.remap("n", "çh", '<cmd>lua require("telescope.builtin").help_tags()<cr>', opts)
-utils.remap("n", "çr", '<cmd>lua require("telescope.builtin").reloader()<cr>', opts)
+utils.remap("n", "çR", '<cmd>lua require("telescope.builtin").reloader()<cr>', opts)
 
 -- Grep
 utils.remap("n", "çs", '<cmd>lua require("telescope.builtin").search_history()<cr>', opts)
@@ -50,6 +102,8 @@ utils.remap("n", "çl",
 -- Commands
 utils.remap("n", "çc", '<cmd>lua require("telescope.builtin").commands()<cr>', opts)
 
+utils.remap("n", "çm", show_telescope_legend, opts)
+
 --## Setup
 telescope.setup {
 	defaults = {
@@ -58,6 +112,7 @@ telescope.setup {
 			".git",
 			_G.nvimDirPrefix
 		},
+		shorten_path = true,
 		mappings = {
 			i = {
 				--["<C-k>"]   = actions.preview_scrolling_up,
@@ -88,3 +143,5 @@ telescope.setup {
 		}
 	}
 }
+
+

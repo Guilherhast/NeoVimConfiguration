@@ -10,6 +10,14 @@ vim.g.user_emmet_settings = {
 	php = {
 		extends = 'html',
 		filters = 'c',
+	},
+	["emmet.preferences"] = { attributeQuotes = "single" },
+	["emmet.syntaxProfiles"] = { html = { attr_quotes = "single" } },
+	["emmet.includeLanguages"] = {
+		html = "html",
+		javascriptreact = "html",
+		typescriptreact = "html",
+		javascript = "javascriptreact",
 	}
 }
 
