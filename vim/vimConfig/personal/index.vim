@@ -1,0 +1,5 @@
+call ExpandSource("personal/autocommands.vim")
+call ExpandSource("personal/commands.vim")
+call ExpandSource("personal/config.vim")
+call ExpandSource("personal/remaps.vim")
+call ExpandSource("personal/variables.vim")
