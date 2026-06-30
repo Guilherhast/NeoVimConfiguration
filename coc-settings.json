@@ -1,18 +1,35 @@
 {
+	"suggest.noselect": true,
+	"suggest.enablePreselect": false,
+	"suggest.removeDuplicateItems": true,
+	"suggest.triggerAfterInsertEnter": true,
+	"suggest.enableFloat": false,
+	"signature.preferShownAbove": false,
+	"signature.hideOnTextChange": true,
+	"snippets.ultisnips.pythonPrompt": false,
+	"snippets.priority": 0,
 	"prettier.useTabs": true,
 	"prettier.enable": false,
 	"prettier.bracketSpacing": false,
+	"prettier.singleQuote": true,
 	"diagnostic.errorSign": "x",
 	"diagnostic.warningSign": "!",
 	"diagnostic.hintSign": "#",
 	"diagnostic.infoSign": "@",
+	"hover.autoHide": true,
 	"css.lint.unknownAtRules": "ignore",
-	"snippets.priority": 0,
+	"Lua.runtime.version": "LuaJIT",
 	"Lua.diagnostics.globals": [
-		"vim"
+		"vim", "os", "turtle", "redstone", "peripheral", "shell"
+	],
+	"Lua.diagnostics.disable": [
+		"lowercase-global"
+	],
+	"Lua.window.progressBar": false,
+	"Lua.workspace.library": [
+		"~/.config/nvim/libs/lua/lua-ls-cc-tweaked/library",
 	],
 	"Lua.runtime.pathStrict": false,
-	"Lua.runtime.version": "LuaJIT",
 	"Lua.workspace.ignoreSubmodules": false,
 	"Lua.workspace.checkThirdParty": false,
 	"inlayHint.enable": false,
@@ -22,12 +39,19 @@
 	"python.analysis.stubPath": "~/.config/nvim/libs/python",
 	"pyright.inlayHints.functionReturnTypes": false,
 	"pyright.inlayHints.variableTypes": false,
-	"snippets.ultisnips.pythonPrompt": false,
-	"suggest.enablePreselect": false,
-	"suggest.noselect": true,
 	"sumneko-lua.enableNvimLuaDev": true,
+	"emmet.preferences": {
+		"output.quoteStyle": "single",
+		"attributeQuotes": "single",
+	},
+	"emmet.syntaxProfiles": {
+		"html": { "attr_quotes": "single"}
+	},
 	"emmet.includeLanguages": {
-		"javascript": "javascriptreact"
+		"html": "html",
+		"javascriptreact": "html",
+		"typescriptreact": "html",
+		"javascript": "javascriptreact",
 	},
 	"intelephense.format.braces": "k&r",
 	"javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
