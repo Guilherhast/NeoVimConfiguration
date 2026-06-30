@@ -1,7 +1,7 @@
 --# My remaps
 --## Imports
 
-local utils = require("GuilherHast.utils")
+local utils = require("Personal.utils")
 
 --## Workflow remaps
 

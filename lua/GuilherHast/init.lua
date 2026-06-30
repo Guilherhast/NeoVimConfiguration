@@ -1,8 +1,0 @@
-require("GuilherHast.priority")
-require("GuilherHast.globals")
-require("GuilherHast.lineNumbering")
-require("GuilherHast.config")
-require("GuilherHast.utils")
-require("GuilherHast.remap")
-require("GuilherHast.commands")
-require("GuilherHast.filetypes")

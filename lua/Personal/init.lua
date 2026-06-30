@@ -1,0 +1,8 @@
+require("Personal.priority")
+require("Personal.globals")
+require("Personal.lineNumbering")
+require("Personal.config")
+require("Personal.utils")
+require("Personal.remap")
+require("Personal.commands")
+require("Personal.filetypes")
