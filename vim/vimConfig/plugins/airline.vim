@@ -43,3 +43,9 @@ endif
 " You should installIt
 " TODO: Add documentation link on how to install
 set guifont=Hack:h10:cANSI
+
+function! AirlineSectionZ()
+	return printf("%02d/%d : %02d", line('.'), line('$'), col('.'))
+endfunction
+
+let g:airline_section_z = '%{AirlineSectionZ()}'
