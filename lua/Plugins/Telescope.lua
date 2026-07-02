@@ -12,16 +12,20 @@ local path_actions = require('telescope_insert_path')
 --Using <space>ç
 local telescope_legend = {
 	{ key = "çç", desc = "Find Files (All)" },
+	{ key = "çt", desc = "Tree sitter" },
 	{ key = "çg", desc = "Git Files (Tracked)" },
+	{ key = "çs", desc = "Git status" },
 	{ key = "çb", desc = "Open Buffers" },
 	{ key = "çh", desc = "Help Tags" },
 	{ key = "çR", desc = "Telescope Reloader" },
-	{ key = "çs", desc = "Search History" },
+	{ key = "ç/", desc = "Search History" },
 	{ key = "çj", desc = "Jumplist" },
 	{ key = "çz", desc = "Fuzzy Find in Current Buffer" },
 	{ key = "çf", desc = "Live Grep (Search Text)" },
 	{ key = "çl", desc = "Grep String (Options)" },
 	{ key = "çc", desc = "Commands" },
+	{ key = "çm", desc = "Marks" },
+	{ key = "ç?", desc = "Show this menu" },
 }
 
 
@@ -86,12 +90,14 @@ local opts = { noremap = true }
 -- Files:
 utils.remap("n", "çç", '<cmd>lua require("telescope.builtin").find_files()<cr>', opts)
 utils.remap("n", "çg", '<cmd>lua require("telescope.builtin").git_files()<cr>', opts)
+utils.remap("n", "çs", '<cmd>lua require("telescope.builtin").git_status()<cr>', opts)
 utils.remap("n", "çb", '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)
 utils.remap("n", "çh", '<cmd>lua require("telescope.builtin").help_tags()<cr>', opts)
 utils.remap("n", "çR", '<cmd>lua require("telescope.builtin").reloader()<cr>', opts)
+utils.remap("n", "çm", '<cmd>lua require("telescope.builtin").marks()<cr>', opts)
 
 -- Grep
-utils.remap("n", "çs", '<cmd>lua require("telescope.builtin").search_history()<cr>', opts)
+utils.remap("n", "ç/", '<cmd>lua require("telescope.builtin").search_history()<cr>', opts)
 utils.remap("n", "çj", '<cmd>lua require("telescope.builtin").jumplist()<cr>', opts)
 utils.remap("n", "çz", '<cmd>lua require("telescope.builtin").current_buffer_fuzzy_find()<cr>', opts)
 utils.remap("n", "çf", '<cmd>lua require("telescope.builtin").live_grep()<cr>', opts)
@@ -99,10 +105,13 @@ utils.remap("n", "çl",
 	'<cmd>lua require("telescope.builtin").grep_string{ shorten_path = true, word_match = "-w", only_sort_text = true, search = "", initial_mode = insert }<cr>',
 	opts)
 
+-- Tree sitter
+utils.remap("n", "çt", '<cmd>lua require("telescope.builtin").treesitter()<cr>', opts)
+
 -- Commands
 utils.remap("n", "çc", '<cmd>lua require("telescope.builtin").commands()<cr>', opts)
 
-utils.remap("n", "çm", show_telescope_legend, opts)
+utils.remap("n", "ç?", show_telescope_legend, opts)
 
 --## Setup
 telescope.setup {
