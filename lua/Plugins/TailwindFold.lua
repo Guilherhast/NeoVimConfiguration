@@ -26,9 +26,16 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
---[[
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "json",
-	command = "TailwindFoldDisable"
-})
---]]
+
+local my_tailwind_group = vim.api.nvim_create_augroup("TailwindJsonConfig", { clear = true })
+
+vim.api.nvim_create_autocmd(
+	{ 'BufReadPost' },
+	{
+		group = my_tailwind_group,
+		ft = "json",
+		callback = function()
+			vim.cmd("TailwindFoldDisable")
+		end
+	}
+)
